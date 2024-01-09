@@ -16,14 +16,30 @@ def xi_function(B):
 def PlusMinus(B):
     return mu_k*g_l*B
 
-def EdiffPlus(B):
-    return PlusMinus(B)+(Delta_E/2.2)*(np.sqrt(1+4*m_F/(2.0*I_87+1.0)*xi_function(B)+xi_function(B)**2)-np.sqrt(1+4*(m_F-1)/(2*I_87+1)*xi_function(B)+xi_function(B)**2))
+def MinusPlus(B):
+    return -mu_k*g_l*B
 
-print(EdiffPlus(0.0001))
+def EdiffPlus(B):
+    return PlusMinus(B)+(Delta_E/2.0)*(np.sqrt(1+4*m_F/(2.0*I_87+1.0)*xi_function(B)+xi_function(B)**2)-np.sqrt(1+4*(m_F-1)/(2*I_87+1)*xi_function(B)+xi_function(B)**2))
+
+def EdiffMinus(B):
+    return MinusPlus(B)+(Delta_E/2.0)*(np.sqrt(1+4*m_F/(2.0*I_87+1.0)*xi_function(B)+xi_function(B)**2)-np.sqrt(1+4*(m_F-1)/(2*I_87+1)*xi_function(B)+xi_function(B)**2))
+
 y=[]
 x = []
 for i in range(1,15):
-    y.append(EdiffPlus(0.0001*i))
-    x.append(0.0001*i)
+    y.append(EdiffPlus(0.001*i)/h)
+    x.append(0.001*i)
 plt.scatter(x,y)
+plt.grid()
+plt.show()
+x2=[]
+y2 = []
+for i in range(1,15):
+    y2.append(EdiffMinus(0.001*i)/h)
+    x2.append(0.001*i)
+plt.scatter(x2,y2)
+plt.grid()
+plt.ylabel("Übergangsfrequenz f in Hz")
+plt.xlabel("Magnetfeldstärke B in T")
 plt.show()
